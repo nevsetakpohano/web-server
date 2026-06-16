@@ -1,8 +1,15 @@
 const request = require('request')
-const config = require('../config')
+
+let weatherstackToken
+try {
+    const config = require('../config')
+    weatherstackToken = config.weatherstackToken
+} catch (e) {
+    weatherstackToken = process.env.WEATHERSTACK_TOKEN
+}
 
 const forecast = (latitude, longitude, callback) => {
-    const url = 'http://api.weatherstack.com/current?access_key=' + config.weatherstackToken + '&query=' + latitude + ',' + longitude
+    const url = 'http://api.weatherstack.com/current?access_key=' + weatherstackToken + '&query=' + latitude + ',' + longitude
 
     request({ url, json: true }, (error, { body } = {}) => {
         if (error) {
